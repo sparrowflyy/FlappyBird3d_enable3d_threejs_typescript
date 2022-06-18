@@ -8,7 +8,7 @@ export class Tubes extends GameObject {
   uid: number;
   //position of bottom (z = 0)
   passed: boolean = false;
-  speed: number = 0.01;
+  speed: number = 0.02;
   radius: number = 2;
   readonly position: THREE.Vector3 = new THREE.Vector3();
   meshes: Array<ExtendedMesh>;
