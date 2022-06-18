@@ -9,7 +9,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { TextTexture, TextSprite } from '@enable3d/three-graphics/jsm/flat'
 import Ammo from 'ammojs-typed'
 namespace Events {
-  export const FlyEvent: MoveEvent = new MoveEvent(new THREE.Vector3(0.0, 0.0, 0.75));
+  export const FlyEvent: MoveEvent = new MoveEvent(new THREE.Vector3(0.0, 0.0, 1));
 }
 
 export class FlappyBird {
@@ -52,10 +52,8 @@ export class FlappyBird {
     this.renderer.setClearColor(0x000000, 0); // the default
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    
-
+  
     //new OrbitControls(this.camera, this.renderer.domElement)
-
     var light = new THREE.HemisphereLight(0xffffff, 1, 1);
     light.position.set(this.defaultBirdPos.x , this.defaultBirdPos.y - 45, this.defaultBirdPos.z);
     light.lookAt(this.defaultBirdPos);
@@ -65,8 +63,8 @@ export class FlappyBird {
     window.addEventListener("resize", this.onWindowResize.bind(this), false);
     // physics
     this.physics = new AmmoPhysics(this.scene as any);
-    this.physics.debug!.enable();
-    this.physics.setGravity(0.0, 0.0, -9.8);
+    //this.physics.debug!.enable();
+    this.physics.setGravity(0.0, 0.0, -50);
     //init objects
     this.initGameObjects();
     //clock
@@ -176,7 +174,7 @@ export class FlappyBird {
       this.checkBird();
       this.checkAddTube();
       this.updateScore();
-      this.physics.update(3 * dt)
+      this.physics.update(dt)
       this.physics.updateDebugger()
     }
     this.render();
