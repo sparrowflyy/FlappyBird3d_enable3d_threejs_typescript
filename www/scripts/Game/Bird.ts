@@ -23,7 +23,7 @@ export class Bird extends GameObject {
   }
   update(dt: number): void {
     if (this.velocity.length() > 0) {
-      this.meshes[0].body.applyForce(this.velocity.x * dt, this.velocity.y * dt, this.velocity.z * dt)
+      this.meshes[0].body.applyForce(this.velocity.x, this.velocity.y, this.velocity.z)
       this.velocity.setLength(0.0);
       this.meshes[0].body.needUpdate = true;
     }

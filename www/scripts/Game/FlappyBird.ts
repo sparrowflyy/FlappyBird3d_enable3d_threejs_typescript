@@ -9,7 +9,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { TextTexture, TextSprite } from '@enable3d/three-graphics/jsm/flat'
 import Ammo from 'ammojs-typed'
 namespace Events {
-  export const FlyEvent: MoveEvent = new MoveEvent(new THREE.Vector3(0.0, 0.0, 2));
+  export const FlyEvent: MoveEvent = new MoveEvent(new THREE.Vector3(0.0, 0.0, 25));
 }
 
 export class FlappyBird {
@@ -69,7 +69,6 @@ export class FlappyBird {
     this.initGameObjects();
     //clock
     this.clock = new THREE.Clock()
-    this.clock.start();
   }
   private updateScoreText() {
     const text = new TextTexture(`Score: ${this.score}`, { fontWeight: 'bold', fontSize: 48 })
@@ -166,22 +165,19 @@ export class FlappyBird {
   }
   //todo: add more accurate physics
   public loop() : void {
-    let dt: number = 1000/60;
-    if (this.clock.getElapsedTime() * 1000 > dt) {
-      this.clock.start();
-      this.pollKeyboard();
-      if (this.started) {
-        this.bird.update(dt);
-        for (let tube of this.tubes)
-          tube.update(dt);
-        this.checkBird();
-        this.checkAddTube();
-        this.updateScore();
-        this.physics.update(dt)
-        this.physics.updateDebugger()
-      }
-      this.render();
+    let dt: number = this.clock.getDelta() * 1000;
+    this.pollKeyboard();
+    if (this.started) {
+      this.bird.update(dt);
+      for (let tube of this.tubes)
+        tube.update(dt);
+      this.checkBird();
+      this.checkAddTube();
+      this.updateScore();
+      this.physics.update(dt)
+      this.physics.updateDebugger()
     }
+    this.render();
     requestAnimationFrame(() => this.loop());
   }
 }
